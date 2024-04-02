@@ -16,37 +16,37 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @ExtendWith(SpringExtension.class)
 public class StudentServiceIntegrationTest {
 
-    @Container
-    public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.3")
-            .withDatabaseName("testdb")
-            .withUsername("testuser")
-            .withPassword("testpassword");
+    static PostgreSQLContainer<?> postgreSQLContainer;
 
     @Autowired
     private StudentService studentService;
 
     @DynamicPropertySource
     static void postgreSQLProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
+        registry.add("spring.datasource.url", () -> postgreSQLContainer.getJdbcUrl());
+        registry.add("spring.datasource.username", () -> postgreSQLContainer.getUsername());
+        registry.add("spring.datasource.password", () -> postgreSQLContainer.getPassword());
     }
 
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    static void beforeAll() {
+        postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.3")
+                .withDatabaseName("testdb")
+                .withUsername("testuser")
+                .withPassword("testpassword");
         postgreSQLContainer.start();
     }
 
-    @AfterEach
-    public void cleanup() {
+    @AfterAll
+    static void afterAll() {
         postgreSQLContainer.stop();
     }
 
     @Test
     public void testAddStudent() {
         Student student = new Student();
-        student.setName("John Doe");
-        student.setEmail("john.doe@example.com");
+        student.setName("assah");
+        student.setEmail("assah@jmail.com");
 
         Student savedStudent = studentService.addStudent(student);
         Assertions.assertNotNull(savedStudent);
@@ -66,5 +66,4 @@ public class StudentServiceIntegrationTest {
         studentService.deleteStudent(savedStudent.getId());
         Assertions.assertNull(studentService.findStudentById(savedStudent.getId()));
     }
-
 }
