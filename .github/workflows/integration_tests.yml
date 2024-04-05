@@ -30,7 +30,7 @@ jobs:
               run: echo "ENV DOCKER_HOST=unix://${XDG_RUNTIME_DIR}/podman/podman.sock" | sudo tee -a ~/.bashrc
                    echo "ENV TESTCONTAINERS_RYUK_DISABLED=true" | sudo tee -a ~/.bashrc
             
-            - name: Run All Unit Tests
+            - name: Run All Integration Tests
               run: mvn clean install -Dtest-profile=integration 
 
              
