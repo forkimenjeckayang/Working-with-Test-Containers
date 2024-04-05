@@ -6,7 +6,7 @@ on:
             - main
 
 jobs:
-    Run_all_unit_tests:
+    Run_all_integration_tests:
         runs-on: ubuntu-latest
 
         steps:

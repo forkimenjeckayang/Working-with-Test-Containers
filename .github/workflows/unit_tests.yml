@@ -1,4 +1,4 @@
-name: Run All Integration Test
+name: Run Unit Test
 
 on:
     push:
@@ -20,5 +20,5 @@ jobs:
               with:
                   java-version: 21
             
-            - name: Run All Integration Tests
+            - name: Run unit Tests
               run: mvn clean install -Dtest-profile=unit
