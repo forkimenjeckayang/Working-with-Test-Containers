@@ -1,4 +1,4 @@
-name: Run All Integration
+name: Run All Integration Test
 
 on:
     push:
@@ -34,4 +34,3 @@ jobs:
             
             - name: Run All Integration Tests
               run: mvn clean install -Dtest-profile=integration
-                  
