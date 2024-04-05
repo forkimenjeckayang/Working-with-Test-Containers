@@ -17,6 +17,7 @@ import com.bismark.test.com.bismark.StudentService;
 @EnabledIfSystemProperty(named = "test-profile", matches = "unit")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class DeleteStudentMethodTest {
+    int a = 10;
     @Autowired
     private StudentService studentService;
 
@@ -30,7 +31,7 @@ public class DeleteStudentMethodTest {
         Student student = Student.builder()
                .name("Forkim Akwichenullk")
                .email("forkim.akwichek@gmail.")
-               .build();
+               .build(); 
 
         //act
         Student savedStudent = studentService.addStudent(student);
