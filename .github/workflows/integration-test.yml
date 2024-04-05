@@ -11,7 +11,7 @@ jobs:
 
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Install podman
               run: sudo apt-get update && sudo apt-get install -y podman
@@ -20,7 +20,10 @@ jobs:
               run: sudo apt-get update && sudo apt-get install -y maven
 
             - name: Install JDK21
-              run: sudo apt install openjdk-21-jdk-headless
+            - uses: actions/setup-java@v1
+             with:
+                java-version: 21
+                maven-version: 3.9.6
             
             - name: Modify registries to pull containers
               run: echo "[registries.search]" | sudo tee -a /etc/containers/registries.conf
@@ -30,8 +33,9 @@ jobs:
               run: echo "ENV DOCKER_HOST=unix://${XDG_RUNTIME_DIR}/podman/podman.sock" | sudo tee -a ~/.bashrc
                    echo "ENV TESTCONTAINERS_RYUK_DISABLED=true" | sudo tee -a ~/.bashrc
             
-            - name: Run All Unit Tests
+            - name: Run All Integration Tests
               run: mvn clean install -Dtest-profile=integration
+
 
 
              
