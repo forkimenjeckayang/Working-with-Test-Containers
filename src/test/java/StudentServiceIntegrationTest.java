@@ -2,6 +2,7 @@ import com.bismark.test.TestApplication;
 import com.bismark.test.com.bismark.Student;
 import com.bismark.test.com.bismark.StudentService;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringJUnitConfig
 @Testcontainers
 @SpringBootTest(classes = TestApplication.class)
+@EnabledIfSystemProperty(named = "test-profile", matches = "integration")
 @ExtendWith(SpringExtension.class)
 public class StudentServiceIntegrationTest {
 

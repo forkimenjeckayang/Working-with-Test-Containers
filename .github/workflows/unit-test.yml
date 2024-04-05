@@ -1,0 +1,36 @@
+name: Run All Integration
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    Run_all_unit_tests:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Install podman
+              run: sudo apt-get update && sudo apt-get install -y podman
+
+            - name: Install Maven
+              run: sudo apt-get update && sudo apt-get install -y maven
+
+            - name: Install JDK21
+              run: sudo apt install openjdk-21-jdk-headless
+            
+            - name: Modify registries to pull containers
+              run: echo "[registries.search]" | sudo tee -a /etc/containers/registries.conf
+                   echo "registries=['docker.io']" | sudo tee -a /etc/containers/registries.conf
+
+            - name: Force test containers to use podaman
+              run: echo "ENV DOCKER_HOST=unix://${XDG_RUNTIME_DIR}/podman/podman.sock" | sudo tee -a ~/.bashrc
+                   echo "ENV TESTCONTAINERS_RYUK_DISABLED=true" | sudo tee -a ~/.bashrc
+            
+            - name: Run All Unit Tests
+              run: mvn clean install -Dtest-profile=integration 
+
+             
