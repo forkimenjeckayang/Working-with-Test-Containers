@@ -2,7 +2,7 @@ name: Run Unit Test
 
 on:
     push:
-        branches: ["*"]
+        branches-ignore: main
 
 jobs:
     Run_all_unit_tests:

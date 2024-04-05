@@ -1,9 +1,10 @@
 name: Run All Integration Test
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches: main
+  pull_request:
+    branches: main
 
 jobs:
     Run_all_integration_tests:
@@ -33,4 +34,4 @@ jobs:
                    echo "ENV TESTCONTAINERS_RYUK_DISABLED=true" | sudo tee -a ~/.bashrc
             
             - name: Run All Integration Tests
-              run: mvn clean install -Dtest-profile=integration
+              run: mvn clean install -Dtest-profile=integration && mvn clean install -Dtest-profile=unit
